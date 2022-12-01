@@ -135,8 +135,8 @@
     <Compile Include="Assets\Plugins\Animancer\Internal\Transitions\LinearMixerTransition.cs" />
     <Compile Include="Assets\Plugins\Animancer\Internal\Mixer States\MixerState.cs" />
     <Compile Include="Assets\Plugins\Animancer\Internal\Core\AnimancerPlayable.LayerList.cs" />
-    <Compile Include="Assets\Plugins\Animancer\Internal\Editor Utilities\Serialization\Serialization.ObjectReference.cs" />
     <Compile Include="Assets\Plugins\Animancer\Utilities\ExposedCurve.cs" />
+    <Compile Include="Assets\Plugins\Animancer\Internal\Editor Utilities\Serialization\Serialization.ObjectReference.cs" />
     <Compile Include="Assets\Plugins\Animancer\Internal\SoloAnimation.cs" />
     <Compile Include="Assets\Plugins\Animancer\Internal\Editor Utilities\AnimationGatherer.cs" />
     <Compile Include="Assets\Plugins\Animancer\Internal\Mixer States\CartesianMixerState.cs" />
