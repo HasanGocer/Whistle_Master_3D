@@ -26,7 +26,6 @@ public class GridSystem : MonoSingleton<GridSystem>
         ObjectPool.Instance.AddObject(_OPCubeCount, obj);
     }
 
-    //Mola bakacam 3tedönüþ
 
     private void MatrisResizeFunc(int lineCount, int columnCount)
     {
@@ -44,7 +43,7 @@ public class GridSystem : MonoSingleton<GridSystem>
                     GridInt[countForLine, countForColumn] = Random.Range(0, randomCubeTypeCount);
                 else if (countForColumn == 0)
                 {
-                    if (countForLine > 2)
+                    if (countForLine >= 2)
                     {
                         if (GridInt[countForLine - 1, countForColumn] == GridInt[countForLine - 2, countForColumn])
                             GridInt[countForLine, countForColumn] = Random.Range(0, randomCubeTypeCount);
@@ -53,23 +52,31 @@ public class GridSystem : MonoSingleton<GridSystem>
                     }
                     else
                         GridInt[countForLine, countForColumn] = GridInt[countForLine - 1, countForColumn];
-                    print("hata");
                 }
                 else
                 {
-                    if (countForLine >= 2)
+                    print("Hata1");
+                    if (countForLine >= 2 && countForColumn != columnCount - 1)
                         if (GridInt[countForLine - 1, countForColumn] == GridInt[countForLine - 2, countForColumn] || GridInt[countForLine - 1, countForColumn] == GridInt[countForLine - 1, countForColumn - 1] || GridInt[countForLine - 1, countForColumn] == GridInt[countForLine - 1, countForColumn + 1])
+                            GridInt[countForLine, countForColumn] = Random.Range(0, randomCubeTypeCount);
+                        else
+                            GridInt[countForLine, countForColumn] = GridInt[countForLine - 1, countForColumn];
+                    else if (countForColumn != columnCount - 1)
+
+                        if (GridInt[countForLine - 1, countForColumn] == GridInt[countForLine - 1, countForColumn - 1] || GridInt[countForLine - 1, countForColumn] == GridInt[countForLine - 1, countForColumn + 1])
                             GridInt[countForLine, countForColumn] = Random.Range(0, randomCubeTypeCount);
                         else
                             GridInt[countForLine, countForColumn] = GridInt[countForLine - 1, countForColumn];
                     else
                     {
-                        if (GridInt[countForLine - 1, countForColumn] == GridInt[countForLine - 1, countForColumn - 1] || GridInt[countForLine - 1, countForColumn] == GridInt[countForLine - 1, countForColumn + 1])
+                        if (GridInt[countForLine - 1, countForColumn] == GridInt[countForLine - 1, countForColumn - 1])
                             GridInt[countForLine, countForColumn] = Random.Range(0, randomCubeTypeCount);
                         else
                             GridInt[countForLine, countForColumn] = GridInt[countForLine - 1, countForColumn];
                     }
+
                 }
+                print(GridInt[countForLine, countForColumn]);
             }
         }
     }
