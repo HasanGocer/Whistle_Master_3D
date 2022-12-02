@@ -9,7 +9,7 @@ public class ItemData : MonoSingleton<ItemData>
     [System.Serializable]
     public class Field
     {
-
+        public int cuberCount;
     }
 
     public Field field;
@@ -20,25 +20,31 @@ public class ItemData : MonoSingleton<ItemData>
     public Field max;
     public Field fieldPrice;
 
-    private void Start()
+    public void IDAwake()
     {
-        /*field.runnerSpeed = standart.runnerSpeed - (factor.runnerSpeed * constant.runnerSpeed);
-        fieldPrice.runnerSpeed = fieldPrice.runnerSpeed * factor.runnerSpeed;
+        ItemPlacement();
+        StartFunc();
+    }
 
-        field.runnerCount = standart.runnerCount + (factor.runnerCount * constant.runnerCount);
-        fieldPrice.runnerCount = fieldPrice.runnerCount * factor.runnerCount;
+    public void StartFunc()
+    {
+        CuberSystem.Instance.StartCuberPlacement();
+        GridSystem.Instance.NewGridCreated();
+    }
 
-        if (field.runnerCount > max.runnerCount)
-        {
-            field.runnerCount = max.runnerCount;
-        }
+    private void ItemPlacement()
+    {
+        field.cuberCount = standart.cuberCount + (factor.cuberCount * constant.cuberCount);
+        fieldPrice.cuberCount = fieldPrice.cuberCount * factor.cuberCount;
 
+    }
 
-        if (field.runnerSpeed < max.runnerSpeed)
-        {
-            field.runnerSpeed = max.runnerSpeed;
-        }*/
-
+    public void SetCuberCount()
+    {
+        fieldPrice.cuberCount = fieldPrice.cuberCount / factor.cuberCount;
+        factor.cuberCount++;
+        fieldPrice.cuberCount = fieldPrice.cuberCount * factor.cuberCount;
+        field.cuberCount = standart.cuberCount + (factor.cuberCount * constant.cuberCount);
 
     }
 

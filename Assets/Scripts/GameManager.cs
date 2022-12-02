@@ -6,11 +6,7 @@ public class GameManager : MonoSingleton<GameManager>
 {
     //managerde bulunacak
 
-    public bool inTransfer;
-    public bool dropTransfer;
-
     public int money;
-    public int researchPoint;
     public int vibration;
     public int sound;
     public int level;
@@ -66,11 +62,28 @@ public class GameManager : MonoSingleton<GameManager>
         {
             PlayerPrefs.SetInt("level", level);
         }
+
+        if (!PlayerPrefs.HasKey("first"))
+        {
+            FactorPlacementWrite(ItemData.Instance.factor);
+            PlayerPrefs.SetInt("first", 1);
+        }
+        ItemData.Instance.factor = FactorPlacementRead();
+        ItemData.Instance.IDAwake();
     }
 
-    public void SetResearchPoint()
+    public void FactorPlacementWrite(ItemData.Field factor)
     {
-        PlayerPrefs.SetInt("researchPoint", researchPoint);
+        string jsonData = JsonUtility.ToJson(factor);
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/FactorData.json", jsonData);
+    }
+
+    public ItemData.Field FactorPlacementRead()
+    {
+        string jsonRead = System.IO.File.ReadAllText(Application.persistentDataPath + "/FactorData.json");
+        ItemData.Field factor = new ItemData.Field();
+        factor = JsonUtility.FromJson<ItemData.Field>(jsonRead);
+        return factor;
     }
 
     public void SetMoney()

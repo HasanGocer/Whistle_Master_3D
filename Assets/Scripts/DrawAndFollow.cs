@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(LineRenderer))]
 
-public class Draw : MonoBehaviour
+public class DrawAndFollow : MonoBehaviour
 {
     Rigidbody rb;
     LineRenderer lr;
@@ -16,7 +16,7 @@ public class Draw : MonoBehaviour
     bool move;
     bool touchPlane;
     bool touchStartedOnPlayer;
-    public bool draw;
+    private bool touch;
 
     void Start()
     {
@@ -30,17 +30,20 @@ public class Draw : MonoBehaviour
 
     private void OnMouseDown()
     {
+        print(0);
         lr.enabled = true;
         touchStartedOnPlayer = true;
         lr.positionCount = 1;
         lr.SetPosition(0, transform.position);
+        touch = true;
     }
 
     private void Update()
     {
         timer += Time.deltaTime;
-        if (Input.GetMouseButton(0) && timer > timeForNextRay && touchStartedOnPlayer && draw)
+        if (Input.GetMouseButton(0) && timer > timeForNextRay && touchStartedOnPlayer && touch)
         {
+            print(1);
             Vector3 worldFromMousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 100));
             Vector3 direction = worldFromMousePos - Camera.main.transform.position;
             RaycastHit hit;
@@ -58,7 +61,7 @@ public class Draw : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0)&&touchPlane==true)
+        if (Input.GetMouseButtonUp(0) && touchPlane == true)
         {
             touchStartedOnPlayer = false;
             move = true;
@@ -83,7 +86,7 @@ public class Draw : MonoBehaviour
                 currentWaypoint = 0;
 
             }
-            draw = false;
+            touch = false;
         }
     }
 }
