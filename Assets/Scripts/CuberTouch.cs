@@ -34,12 +34,12 @@ public class CuberTouch : MonoBehaviour
 
     private void TouchCube(GameObject other)
     {
-        CuberID cuberID = GetComponent<CuberID>();
-        cuberID.CuberCubeCountTextPlus();
         CuberSystem cuberSystem = CuberSystem.Instance;
+        CuberID cuberID = GetComponent<CuberID>();
 
-        StartCoroutine(cuberSystem.CallCuberBlast(other, cuberSystem.particalWaitTime, cuberSystem.OPBlastParticalCount));
-        StartCoroutine(cuberSystem.CallCuberTouchCube(this.gameObject, cuberSystem.shakerWaitTime, cuberSystem.shakerCuberStrength));
-        GridSystem.Instance.CubeAddObjectPool(other);
+        cuberSystem.AddedCubeTouch(cuberID, other.gameObject);
+        //StartCoroutine(cuberSystem.CallCuberBlast(other, cuberSystem.particalWaitTime, cuberSystem.OPBlastParticalCount));
+        //StartCoroutine(cuberSystem.CallCuberTouchCube(this.gameObject, cuberSystem.shakerWaitTime, cuberSystem.shakerCuberStrength));
+        //GridSystem.Instance.CubeAddObjectPool(other);
     }
 }

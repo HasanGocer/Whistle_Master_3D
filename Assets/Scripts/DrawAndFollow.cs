@@ -43,7 +43,6 @@ public class DrawAndFollow : MonoBehaviour
         timer += Time.deltaTime;
         if (Input.GetMouseButton(0) && timer > timeForNextRay && touchStartedOnPlayer && touch)
         {
-            print(1);
             Vector3 worldFromMousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 100));
             Vector3 direction = worldFromMousePos - Camera.main.transform.position;
             RaycastHit hit;
@@ -86,6 +85,8 @@ public class DrawAndFollow : MonoBehaviour
                 currentWaypoint = 0;
 
             }
+            CuberID cuberID = GetComponent<CuberID>();
+            CuberSystem.Instance.CallCubeBlastAfterMove(cuberID, this.gameObject, this.gameObject, CuberSystem.Instance.cubeMoveConstant, cuberID.CubeGameObject);
             touch = false;
         }
     }

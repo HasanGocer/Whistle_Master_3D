@@ -434,6 +434,7 @@ MonoBehaviour:
   shakerWaitTime: 0.3
   shakerCuberStrength: 2
   OPBlastParticalCount: 1
+  cubeMoveConstant: 0.008
   CuberGameObject: []
 --- !u!114 &1290022018
 MonoBehaviour:
@@ -641,7 +642,7 @@ MonoBehaviour:
     cubeObjectTypeCount: 0
   standart:
     cuberCount: 1
-    cubeLineCount: 3
+    cubeLineCount: 5
     cubeColumnCount: 10
     cubeObjectTypeCount: 2
   factor:
