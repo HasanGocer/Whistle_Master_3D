@@ -10,7 +10,7 @@ public class CuberSystem : MonoSingleton<CuberSystem>
     [SerializeField] private GameObject _cuberTemplatePosition;
     [SerializeField] private GameObject _cuberParent;
     public float particalWaitTime, shakerWaitTime;
-    public int shakerCuberStrength;
+    public float shakerCuberStrength;
     public int OPBlastParticalCount;
     public float cubeMoveConstant;
     public List<GameObject> CuberGameObject = new List<GameObject>();
@@ -23,7 +23,7 @@ public class CuberSystem : MonoSingleton<CuberSystem>
             CuberAddedListFunc(obj, CuberGameObject);
             CuberPositionPlacement(obj, _cuberTemplatePosition, _cuberParent, _cuberHorizontalDistance, CuberGameObject);
             CuberMaterialPlacement(obj, CuberGameObject.Count - 1, MaterialSystem.Instance.CubeMaterial);
-            CuberFixedFunc(obj, CuberGameObject.Count - 1);
+            CuberFixedFunc(obj, CuberGameObject.Count);
         }
     }
 
@@ -35,7 +35,7 @@ public class CuberSystem : MonoSingleton<CuberSystem>
         ObjectPool.Instance.AddObject(OPBlastParticalCount, obj);
     }
 
-    public IEnumerator CallCuberTouchCube(GameObject cuber, float waitTime, int shakerCuberStrength)
+    public IEnumerator CallCuberTouchCube(GameObject cuber, float waitTime, float shakerCuberStrength)
     {
         cuber.transform.DOShakePosition(waitTime, shakerCuberStrength);
         cuber.transform.DOShakeRotation(waitTime, shakerCuberStrength);
@@ -45,20 +45,25 @@ public class CuberSystem : MonoSingleton<CuberSystem>
 
     public IEnumerator CallCubeBlastAfterMove(CuberID cuberID, GameObject cuber, GameObject cubePatern, float cubeMoveConstant, List<GameObject> CubeGameObject)
     {
-        int limit = CubeGameObject.Count;
-        for (int i = limit; i >= 0; i--)
+        if (CubeGameObject.Count != 0)
         {
-            CubeMoveFunc(i, cubeMoveConstant, cubePatern, cuber, CubeGameObject);
-            yield return new WaitForSeconds(Vector3.Distance(cuber.transform.position, CubeGameObject[i].transform.position) * cubeMoveConstant);
-            GridSystem.Instance.CubeAddObjectPool(CubeGameObject[i].gameObject);
-            cuberID.CuberCubeCountTextPlus();
-            CubeGameObject.RemoveAt(i);
+            cuber.transform.DOMove(CubeGameObject[CubeGameObject.Count - 1].transform.position, 0.1f);
+            int limit = CubeGameObject.Count;
+            for (int i = limit - 1; i >= 0; i--)
+            {
+                StartCoroutine(CubeMoveFunc(i, cubeMoveConstant, cubePatern, cuber, CubeGameObject));
+                yield return new WaitForSeconds(Vector3.Distance(cuber.transform.position, CubeGameObject[i].transform.position) * cubeMoveConstant);
+                GridSystem.Instance.CubeAddObjectPool(CubeGameObject[i].gameObject);
+                cuberID.CuberCubeCountTextPlus();
+                CubeGameObject.RemoveAt(i);
+            }
         }
     }
 
     public void AddedCubeTouch(CuberID cuberID, GameObject cube)
     {
         cuberID.CubeGameObject.Add(cube);
+        cube.GetComponent<BoxCollider>().enabled = false;
     }
 
     private GameObject CallCuberGameObject(int OPCuberCount)
@@ -77,7 +82,7 @@ public class CuberSystem : MonoSingleton<CuberSystem>
     }
     private void CuberMaterialPlacement(GameObject obj, int CubeCount, List<Material> Materials)
     {
-        obj.GetComponent<MeshRenderer>().material = Materials[CubeCount];
+        obj.GetComponent<MeshRenderer>().material = Materials[CubeCount + 1];
     }
     private void CuberFixedFunc(GameObject obj, int cuberCount)
     {
@@ -89,9 +94,10 @@ public class CuberSystem : MonoSingleton<CuberSystem>
         cuberTouch.CuberCountplacement(cuberCount);
         boxCollider.isTrigger = false;
     }
-    private void CubeMoveFunc(int listCount, float cubeMoveConstant, GameObject cubePatern, GameObject cuber, List<GameObject> CubeGameObject)
+    private IEnumerator CubeMoveFunc(int listCount, float cubeMoveConstant, GameObject cubePatern, GameObject cuber, List<GameObject> CubeGameObject)
     {
-        CubeGameObject[listCount].transform.SetParent(cubePatern.transform);
+        //CubeGameObject[listCount].transform.SetParent(cubePatern.transform);
         CubeGameObject[listCount].transform.DOMove(cuber.transform.position, Vector3.Distance(cuber.transform.position, CubeGameObject[listCount].transform.position) * cubeMoveConstant);
+        yield return new WaitForSeconds(Vector3.Distance(cuber.transform.position, CubeGameObject[listCount].transform.position) * cubeMoveConstant);
     }
 }

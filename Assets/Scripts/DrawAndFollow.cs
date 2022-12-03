@@ -30,7 +30,6 @@ public class DrawAndFollow : MonoBehaviour
 
     private void OnMouseDown()
     {
-        print(0);
         lr.enabled = true;
         touchStartedOnPlayer = true;
         lr.positionCount = 1;
@@ -69,7 +68,7 @@ public class DrawAndFollow : MonoBehaviour
 
         if (move)
         {
-            transform.LookAt(wayPoints[currentWaypoint].transform);
+            //transform.LookAt(wayPoints[currentWaypoint].transform);
             rb.MovePosition(wayPoints[currentWaypoint].transform.position);
             if (transform.position == wayPoints[currentWaypoint].transform.position)
                 currentWaypoint++;
@@ -83,10 +82,9 @@ public class DrawAndFollow : MonoBehaviour
                 wayPoints.Clear();
                 wayIndex = 1;
                 currentWaypoint = 0;
-
+                CuberID cuberID = this.GetComponent<CuberID>();
+                StartCoroutine(CuberSystem.Instance.CallCubeBlastAfterMove(cuberID, this.gameObject, this.gameObject, CuberSystem.Instance.cubeMoveConstant, cuberID.CubeGameObject));
             }
-            CuberID cuberID = GetComponent<CuberID>();
-            CuberSystem.Instance.CallCubeBlastAfterMove(cuberID, this.gameObject, this.gameObject, CuberSystem.Instance.cubeMoveConstant, cuberID.CubeGameObject);
             touch = false;
         }
     }

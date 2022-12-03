@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0.6}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &5748837471096920216
@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 3183289455032072998}
   - component: {fileID: 2916846993965942989}
   - component: {fileID: 7063286929946124334}
-  - component: {fileID: 5615235748022007417}
+  - component: {fileID: 1142740168315077838}
   - component: {fileID: 4225967103534320840}
   m_Layer: 0
   m_Name: Cuber
@@ -399,7 +399,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cuberCubeCount: 0
   cuberCubeCountText: {fileID: 5361230638886407231}
---- !u!114 &5615235748022007417
+  CubeGameObject: []
+  cubeParent: {fileID: 0}
+--- !u!114 &1142740168315077838
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -408,11 +410,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8361914767524357562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e80b75326943d4b40a9b670c6d4a0ff9, type: 3}
+  m_Script: {fileID: 11500000, guid: ad4079a03e823084387e88579b6237f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 3183289455032072998}
+  lr: {fileID: 2916846993965942989}
+  bc: {fileID: 5246094257165969181}
   timeForNextRay: 0
   wayPoints: []
+  currentWaypoint: 0
 --- !u!114 &4225967103534320840
 MonoBehaviour:
   m_ObjectHideFlags: 0

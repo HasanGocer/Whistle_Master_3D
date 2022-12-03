@@ -49,6 +49,8 @@ public class GridSystem : MonoSingleton<GridSystem>
                     else
                         GridInt[countForLine, countForColumn] = GridInt[countForLine - 1, countForColumn];
                 }
+                else if (countForLine == lineCount - 1)
+                    GridInt[countForLine, countForColumn] = Random.Range(1, randomCubeTypeCount);
                 else
                 {
                     if (countForLine >= 2 && countForColumn != columnCount - 1)

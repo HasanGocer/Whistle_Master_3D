@@ -38,8 +38,8 @@ public class CuberTouch : MonoBehaviour
         CuberID cuberID = GetComponent<CuberID>();
 
         cuberSystem.AddedCubeTouch(cuberID, other.gameObject);
+        StartCoroutine(cuberSystem.CallCuberTouchCube(other.gameObject, cuberSystem.shakerWaitTime, cuberSystem.shakerCuberStrength));
         //StartCoroutine(cuberSystem.CallCuberBlast(other, cuberSystem.particalWaitTime, cuberSystem.OPBlastParticalCount));
-        //StartCoroutine(cuberSystem.CallCuberTouchCube(this.gameObject, cuberSystem.shakerWaitTime, cuberSystem.shakerCuberStrength));
         //GridSystem.Instance.CubeAddObjectPool(other);
     }
 }
