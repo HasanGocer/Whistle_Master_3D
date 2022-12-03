@@ -53,6 +53,7 @@ public class CuberSystem : MonoSingleton<CuberSystem>
     private void CuberPositionPlacement(GameObject obj, GameObject cuberTemplatePosition, GameObject cuberParent, float cuberHorizontalDistance, List<GameObject> CuberGameObject)
     {
         obj.transform.position = new Vector3(cuberTemplatePosition.transform.position.x + (cuberHorizontalDistance * (CuberGameObject.Count - 1)), cuberTemplatePosition.transform.position.y, cuberTemplatePosition.transform.position.z);
+        obj.transform.localScale = new Vector3(((GridSystem.Instance.scale / 5) *4), obj.transform.localScale.y, ((GridSystem.Instance.scale / 5) * 4));
         obj.transform.SetParent(cuberParent.transform);
     }
     private void CuberMaterialPlacement(GameObject obj, int CubeCount, List<Material> Materials)
@@ -63,8 +64,10 @@ public class CuberSystem : MonoSingleton<CuberSystem>
     {
         CuberID cuberID = obj.GetComponent<CuberID>();
         CuberTouch cuberTouch = obj.GetComponent<CuberTouch>();
+        BoxCollider boxCollider = obj.GetComponent<BoxCollider>();
 
         cuberID.CuberCubeCountTextPlus();
         cuberTouch.CuberCountplacement(cuberCount);
+        boxCollider.isTrigger = false;
     }
 }

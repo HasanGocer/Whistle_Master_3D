@@ -9,7 +9,7 @@ public class ItemData : MonoSingleton<ItemData>
     [System.Serializable]
     public class Field
     {
-        public int cuberCount;
+        public int cuberCount, cubeLineCount, cubeColumnCount, cubeObjectTypeCount;
     }
 
     public Field field;
@@ -28,44 +28,54 @@ public class ItemData : MonoSingleton<ItemData>
 
     public void StartFunc()
     {
-        CuberSystem.Instance.StartCuberPlacement();
         GridSystem.Instance.NewGridCreated();
+        CuberSystem.Instance.StartCuberPlacement();
     }
 
     private void ItemPlacement()
     {
         field.cuberCount = standart.cuberCount + (factor.cuberCount * constant.cuberCount);
-        fieldPrice.cuberCount = fieldPrice.cuberCount * factor.cuberCount;
+        //fieldPrice.cuberCount = fieldPrice.cuberCount * factor.cuberCount;
 
+        field.cubeLineCount = standart.cubeLineCount + (factor.cubeLineCount * constant.cubeLineCount);
+        //fieldPrice.cubeLineCount = fieldPrice.cubeLineCount * factor.cubeLineCount;
+
+        field.cubeColumnCount = standart.cubeColumnCount + (factor.cubeColumnCount * constant.cubeColumnCount);
+        //fieldPrice.cubeColumnCount = fieldPrice.cubeColumnCount * factor.cubeColumnCount;
+
+        field.cubeObjectTypeCount = standart.cubeObjectTypeCount + (factor.cubeObjectTypeCount * constant.cubeObjectTypeCount);
+        //fieldPrice.cubeObjectTypeCount = fieldPrice.cubeObjectTypeCount * factor.cubeObjectTypeCount;
     }
 
     public void SetCuberCount()
     {
-        fieldPrice.cuberCount = fieldPrice.cuberCount / factor.cuberCount;
+        //fieldPrice.cuberCount = fieldPrice.cuberCount / factor.cuberCount;
         factor.cuberCount++;
-        fieldPrice.cuberCount = fieldPrice.cuberCount * factor.cuberCount;
+        //fieldPrice.cuberCount = fieldPrice.cuberCount * factor.cuberCount;
         field.cuberCount = standart.cuberCount + (factor.cuberCount * constant.cuberCount);
-
     }
 
-    /*public void RunnerCount()
+    public void SetCubeLineCount()
     {
-        field.runnerCount = standart.runnerCount + (factor.runnerCount * constant.runnerCount);
-
-        if (field.runnerCount > max.runnerCount)
-        {
-            field.runnerCount = max.runnerCount;
-        }
+        //fieldPrice.cubeLineCount = fieldPrice.cubeLineCount / factor.cubeLineCount;
+        factor.cubeLineCount++;
+        //fieldPrice.cubeLineCount = fieldPrice.cubeLineCount * factor.cubeLineCount;
+        field.cubeLineCount = standart.cubeLineCount + (factor.cubeLineCount * constant.cubeLineCount);
     }
 
-
-    public void RunnerSpeed()
+    public void SetCubeColumnCount()
     {
-        field.runnerSpeed = standart.runnerSpeed - (factor.runnerSpeed * constant.runnerSpeed);
+        //fieldPrice.cubeColumnCount = fieldPrice.cubeColumnCount / factor.cubeColumnCount;
+        factor.cubeColumnCount++;
+        //fieldPrice.cubeColumnCount = fieldPrice.cubeColumnCount * factor.cubeColumnCount;
+        field.cubeColumnCount = standart.cubeColumnCount + (factor.cubeColumnCount * constant.cubeColumnCount);
+    }
 
-        if (field.runnerSpeed < max.runnerSpeed)
-        {
-            field.runnerSpeed = max.runnerSpeed;
-        }
-    }*/
+    public void SetCubeObjectTypeCount()
+    {
+        //fieldPrice.cubeObjectTypeCount = fieldPrice.cubeObjectTypeCount / factor.cubeObjectTypeCount;
+        factor.cubeObjectTypeCount++;
+        //fieldPrice.cubeObjectTypeCount = fieldPrice.cubeObjectTypeCount * factor.cubeObjectTypeCount;
+        field.cubeObjectTypeCount = standart.cubeObjectTypeCount + (factor.cubeObjectTypeCount * constant.cubeObjectTypeCount);
+    }
 }

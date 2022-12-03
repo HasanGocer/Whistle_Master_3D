@@ -7,25 +7,22 @@ public class GridSystem : MonoSingleton<GridSystem>
 
     public int[,] GridInt;
     public GameObject[,] GridGameObject;
+    public float scale;
     [SerializeField] private GameObject _cubeTemplatePosition, _cubeParent;
-    [SerializeField] private float _xDistance, _zDistance;
+    [SerializeField] private float _positionDistance;
     [SerializeField] private int _OPCubeCount;
-
-
-    public int lineCount, columnCount, randomCubeTypeCount;
 
     public void NewGridCreated()
     {
-        MatrisResizeFunc(lineCount, columnCount);
-        MatrisPlacementWithHGAlgorithmFunc(lineCount, columnCount, randomCubeTypeCount);
-        GameObjectMatrisPlacement(_cubeTemplatePosition, _cubeParent, _xDistance, _zDistance, lineCount, columnCount, _OPCubeCount, GridGameObject, GridInt);
+        MatrisResizeFunc(ItemData.Instance.field.cubeLineCount, ItemData.Instance.field.cubeColumnCount);
+        MatrisPlacementWithHGAlgorithmFunc(ItemData.Instance.field.cubeLineCount, ItemData.Instance.field.cubeColumnCount, ItemData.Instance.field.cubeObjectTypeCount);
+        GameObjectMatrisPlacement(_cubeTemplatePosition, _cubeParent, ItemData.Instance.field.cubeLineCount, ItemData.Instance.field.cubeColumnCount, _OPCubeCount, GridGameObject, GridInt);
     }
 
     public void CubeAddObjectPool(GameObject obj)
     {
         ObjectPool.Instance.AddObject(_OPCubeCount, obj);
     }
-
 
     private void MatrisResizeFunc(int lineCount, int columnCount)
     {
@@ -38,7 +35,6 @@ public class GridSystem : MonoSingleton<GridSystem>
         {
             for (int countForColumn = 0; countForColumn < columnCount; countForColumn++)
             {
-                print(countForLine + " " + countForColumn);
                 if (countForLine == 0)
                     GridInt[countForLine, countForColumn] = Random.Range(0, randomCubeTypeCount);
                 else if (countForColumn == 0)
@@ -55,7 +51,6 @@ public class GridSystem : MonoSingleton<GridSystem>
                 }
                 else
                 {
-                    print("Hata1");
                     if (countForLine >= 2 && countForColumn != columnCount - 1)
                         if (GridInt[countForLine - 1, countForColumn] == GridInt[countForLine - 2, countForColumn] || GridInt[countForLine - 1, countForColumn] == GridInt[countForLine - 1, countForColumn - 1] || GridInt[countForLine - 1, countForColumn] == GridInt[countForLine - 1, countForColumn + 1])
                             GridInt[countForLine, countForColumn] = Random.Range(0, randomCubeTypeCount);
@@ -76,19 +71,19 @@ public class GridSystem : MonoSingleton<GridSystem>
                     }
 
                 }
-                print(GridInt[countForLine, countForColumn]);
             }
         }
     }
-    private void GameObjectMatrisPlacement(GameObject cubeTemplatePosition, GameObject cubeParent, float xDistance, float zDistance, int lineCount, int columnCount, int OPCubeCount, GameObject[,] GridGameObject, int[,] GridInt)
+    private void GameObjectMatrisPlacement(GameObject cubeTemplatePosition, GameObject cubeParent, int lineCount, int columnCount, int OPCubeCount, GameObject[,] GridGameObject, int[,] GridInt)
     {
+        float scale = CubePositionAlgorithmFunc(_positionDistance, lineCount);
         for (int countForLine = 0; countForLine < lineCount; countForLine++)
         {
             for (int countForColumn = 0; countForColumn < columnCount; countForColumn++)
             {
                 GameObject obj = CallCubeGameObject(OPCubeCount);
                 CubeAddedListFunc(obj, countForLine, countForColumn, GridGameObject);
-                CubePositionPlacement(obj, cubeTemplatePosition, cubeParent, xDistance, zDistance, countForLine, countForColumn);
+                CubePositionPlacement(obj, cubeTemplatePosition, cubeParent, scale, _positionDistance, countForLine, countForColumn);
                 CubeMaterialPlacement(obj, GridInt[countForLine, countForColumn], MaterialSystem.Instance.CubeMaterial);
                 CubeFixedFunc(obj, GridInt[countForLine, countForColumn]);
             }
@@ -102,9 +97,14 @@ public class GridSystem : MonoSingleton<GridSystem>
     {
         GridGameObject[countForLine, countForColumn] = obj;
     }
-    private void CubePositionPlacement(GameObject obj, GameObject cubeTemplatePosition, GameObject cubeParent, float xDistance, float zDistance, int countForLine, int countForColumn)
+    private float CubePositionAlgorithmFunc(float positionDistance, int lineCount)
     {
-        obj.transform.position = new Vector3(cubeTemplatePosition.transform.position.x + (xDistance * countForLine), cubeTemplatePosition.transform.position.y, cubeTemplatePosition.transform.position.z + (zDistance * countForColumn));
+        return scale = ((5 * positionDistance) + 1) / (6 * lineCount);
+    }
+    private void CubePositionPlacement(GameObject obj, GameObject cubeTemplatePosition, GameObject cubeParent, float scale, float positionDistance, int countForLine, int countForColumn)
+    {
+        obj.transform.position = new Vector3(cubeTemplatePosition.transform.position.x + ((scale / 2) - (positionDistance / 2) + ((scale / 5) * 6 * countForLine)), cubeTemplatePosition.transform.position.y, cubeTemplatePosition.transform.position.z + ((scale / 5) * 6 * countForColumn));
+        obj.transform.localScale = new Vector3(scale, obj.transform.localScale.y, scale);
         obj.transform.SetParent(cubeParent.transform);
     }
     private void CubeMaterialPlacement(GameObject obj, int CubeCount, List<Material> Materials)
