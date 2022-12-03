@@ -30,6 +30,7 @@ public class ItemData : MonoSingleton<ItemData>
     {
         GridSystem.Instance.NewGridCreated();
         CuberSystem.Instance.StartCuberPlacement();
+        FinishBox.Instance.CuberFinishBoolReSize();
     }
 
     private void ItemPlacement()
