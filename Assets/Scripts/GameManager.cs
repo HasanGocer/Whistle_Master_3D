@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameManager : MonoSingleton<GameManager>
 {
     //managerde bulunacak
+    public bool isStart;
+    public bool isCuberMove;
 
     public int money;
     public int vibration;
